@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BADLAND — атмосферна гра про виживання, рух і небезпеки. Завантажуйте гру, дивіться скріншоти та стежте за оновленнями.">
+    <title>BADLAND</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="backdrop" aria-hidden="true">
+        <div class="backdrop__sun"></div>
+        <div class="backdrop__fog backdrop__fog--one"></div>
+        <div class="backdrop__fog backdrop__fog--two"></div>
+        <div class="backdrop__terrain"></div>
+    </div>
+
+    <header class="site-header">
+        <div class="container site-header__inner">
+            <a class="logo" href="#top">BADLAND</a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="siteNav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="site-nav" id="siteNav">
+                <a href="#about">Про гру</a>
+                <a href="#features">Особливості</a>
+                <a href="#gallery">Скріншоти</a>
+                <a href="#download">Завантажити</a>
+                <a href="#contact">Контакти</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="hero">
+            <div class="container hero__grid">
+                <div class="hero__content">
+                    <p class="eyebrow">Indie Game Landing Page</p>
+                    <h1>Темний світ. Живий ритм. Один неправильний рух.</h1>
+                    <p class="hero__text">
+                        BADLAND — це атмосферна гра з небезпечними рівнями, пастками, польотом,
+                        інерцією та напругою в кожній секунді проходження.
+                    </p>
+                    <div class="hero__actions">
+                        <a class="button button--primary" href="#download">Download</a>
+                        <a class="button button--ghost" href="#gallery">View Screens</a>
+                    </div>
+                    <ul class="hero__stats">
+                        <li><strong>1-2</strong><span>гравці</span></li>
+                        <li><strong>PC</strong><span>платформа</span></li>
+                        <li><strong>2026</strong><span>активна розробка</span></li>
+                    </ul>
+                </div>
+
+                <div class="hero__panel">
+                    <div class="hero-card">
+                        <p class="hero-card__label">Current Build</p>
+                        <h2>Prototype Desktop Build</h2>
+                        <p>
+                            Тут пізніше можна поставити номер версії, changelog, дату релізу
+                            або пряме посилання на останній `.exe`.
+                        </p>
+                        <div class="hero-card__meta">
+                            <span>Windows</span>
+                            <span>Singleplayer / Co-op</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="about">
+            <div class="container section__grid">
+                <div>
+                    <p class="eyebrow">Про гру</p>
+                    <h2>Сайт можна міняти як завгодно, це лише стартовий каркас</h2>
+                </div>
+                <div class="copy-block">
+                    <p>
+                        Цей шаблон зроблений так, щоб ви могли далі безболісно міняти тексти,
+                        кольори, блоки, скріни, кнопки та структуру сторінки. Він не зав’язаний
+                        на складний стек і нормально підходить для `Cloudflare Pages`.
+                    </p>
+                    <p>
+                        Якщо захочете, сюди можна додати трейлер, devlog, FAQ, форму зворотного
+                        зв’язку, сторінку новин або окремий розділ під кооперативний режим.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="features">
+            <div class="container">
+                <p class="eyebrow">Особливості</p>
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <span class="feature-card__index">01</span>
+                        <h3>Атмосфера</h3>
+                        <p>Темна візуальна подача, глибокий фон і напружений темп проходження.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-card__index">02</span>
+                        <h3>Фізика руху</h3>
+                        <p>Польоти, інерція, зіткнення і контроль, який відчувається руками.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-card__index">03</span>
+                        <h3>Небезпеки</h3>
+                        <p>Пастки, перепони і вузькі місця, де помилки дорого коштують.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-card__index">04</span>
+                        <h3>Кооператив</h3>
+                        <p>Блок під кооп можна легко розширити, коли доробите мережеву частину.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="gallery">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Скріншоти</p>
+                        <h2>Поки без реальних зображень, але місце вже готове</h2>
+                    </div>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-card">Screenshot 01</div>
+                    <div class="gallery-card gallery-card--tall">Screenshot 02</div>
+                    <div class="gallery-card">Screenshot 03</div>
+                    <div class="gallery-card">Screenshot 04</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section--accent" id="download">
+            <div class="container download-panel">
+                <div>
+                    <p class="eyebrow">Завантаження</p>
+                    <h2>Кнопку потім просто прив’яжете до вашого `.exe`</h2>
+                    <p>
+                        Зараз це демо-кнопка. Пізніше можна поставити пряме посилання на
+                        `GitHub Releases`, `Cloudflare R2` або інше сховище.
+                    </p>
+                </div>
+                <div class="download-actions">
+                    <a class="button button--primary" href="#" id="downloadButton">Download for Windows</a>
+                    <p class="download-note">Поточна дія: тимчасовий placeholder без реального файлу.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="container contact-strip">
+                <div>
+                    <p class="eyebrow">Контакти</p>
+                    <h2>Місце під соцмережі, пошту і спільноту</h2>
+                </div>
+                <div class="contact-links">
+                    <a href="#">Discord</a>
+                    <a href="#">YouTube</a>
+                    <a href="#">TikTok</a>
+                    <a href="mailto:your@email.com">your@email.com</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container site-footer__inner">
+            <p>BADLAND</p>
+            <p>&copy; <span id="year"></span> All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
