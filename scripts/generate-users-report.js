@@ -6,6 +6,8 @@ const admin = require("firebase-admin");
 
 const OUTPUT_PATH = path.join(__dirname, "..", "users.html");
 const COLLECTION_NAME = "users";
+const SCORE_FIELDS = ["score", "bestScore", "points"];
+const NAME_FIELDS = ["displayName", "name", "username", "nickName"];
 
 function escapeHtml(value) {
     return String(value)
@@ -30,85 +32,74 @@ function getServiceAccount() {
     }
 }
 
-function normalizeDate(value) {
-    if (value === null || value === undefined) {
-        return null;
-    }
+function getFirstString(data, fieldNames) {
+    for (const fieldName of fieldNames) {
+        const value = data[fieldName];
 
-    if (typeof value.toDate === "function") {
-        return value.toDate();
-    }
-
-    if (value instanceof Date) {
-        return Number.isNaN(value.getTime()) ? null : value;
-    }
-
-    if (typeof value === "string") {
-        const parsed = new Date(value);
-        return Number.isNaN(parsed.getTime()) ? null : parsed;
-    }
-
-    if (typeof value === "number") {
-        const normalized = value < 1e12 ? value * 1000 : value;
-        const parsed = new Date(normalized);
-        return Number.isNaN(parsed.getTime()) ? null : parsed;
-    }
-
-    if (typeof value === "object") {
-        if (typeof value._seconds === "number") {
-            return new Date(value._seconds * 1000);
-        }
-
-        if (typeof value.seconds === "number") {
-            return new Date(value.seconds * 1000);
+        if (typeof value === "string" && value.trim()) {
+            return value.trim();
         }
     }
 
-    return null;
+    return "";
 }
 
-function formatDate(value) {
-    const date = normalizeDate(value);
-    return date ? date.toISOString() : "—";
+function getScore(data) {
+    for (const fieldName of SCORE_FIELDS) {
+        const value = data[fieldName];
+
+        if (typeof value === "number" && Number.isFinite(value)) {
+            return value;
+        }
+
+        if (typeof value === "string" && value.trim()) {
+            const parsed = Number(value);
+
+            if (Number.isFinite(parsed)) {
+                return parsed;
+            }
+        }
+    }
+
+    return 0;
 }
 
-function sortUsers(users) {
-    return [...users].sort((left, right) => {
-        const leftDate = normalizeDate(left.createdAt);
-        const rightDate = normalizeDate(right.createdAt);
-        const leftTime = leftDate ? leftDate.getTime() : 0;
-        const rightTime = rightDate ? rightDate.getTime() : 0;
+function sortPlayers(players) {
+    return [...players].sort((left, right) => {
+        if (left.score !== right.score) {
+            return right.score - left.score;
+        }
 
-        if (leftTime !== rightTime) {
-            return rightTime - leftTime;
+        if (left.playerName !== right.playerName) {
+            return left.playerName.localeCompare(right.playerName);
         }
 
         return left.uid.localeCompare(right.uid);
     });
 }
 
-function renderRows(users) {
-    if (users.length === 0) {
+function renderRows(players) {
+    if (players.length === 0) {
         return `
                     <tr>
-                        <td colspan="4" class="empty-state">No users found in Firestore collection "${escapeHtml(COLLECTION_NAME)}".</td>
+                        <td colspan="4" class="empty-state">No players found in Firestore collection "${escapeHtml(COLLECTION_NAME)}".</td>
                     </tr>`;
     }
 
-    return users
-        .map((user) => {
+    return players
+        .map((player, index) => {
             return `
                     <tr>
-                        <td>${escapeHtml(user.uid)}</td>
-                        <td>${escapeHtml(user.email || "—")}</td>
-                        <td>${escapeHtml(formatDate(user.createdAt))}</td>
-                        <td>${escapeHtml(formatDate(user.lastSignInAt))}</td>
+                        <td>${index + 1}</td>
+                        <td>${escapeHtml(player.playerName)}</td>
+                        <td>${escapeHtml(player.email || "—")}</td>
+                        <td>${escapeHtml(player.score)}</td>
                     </tr>`;
         })
         .join("");
 }
 
-function renderHtml(users, generatedAt) {
+function renderHtml(players, generatedAt) {
     const lastUpdated = generatedAt.toISOString();
 
     return `<!DOCTYPE html>
@@ -116,8 +107,8 @@ function renderHtml(users, generatedAt) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hourly Firestore users report">
-    <title>Firestore Users Report</title>
+    <meta name="description" content="Hourly Firestore leaderboard">
+    <title>Leaderboard</title>
     <style>
         :root {
             color-scheme: dark;
@@ -258,11 +249,11 @@ function renderHtml(users, generatedAt) {
     <main>
         <section class="panel">
             <div class="hero">
-                <p class="chip">Firestore users snapshot</p>
-                <h1>Users Report</h1>
-                <p>Generated automatically from Firestore collection "${escapeHtml(COLLECTION_NAME)}".</p>
+                <p class="chip">Firestore leaderboard snapshot</p>
+                <h1>Leaderboard</h1>
+                <p>Generated automatically from Firestore collection "${escapeHtml(COLLECTION_NAME)}" and ranked by player score.</p>
                 <div class="meta">
-                    <span>Total users: ${users.length}</span>
+                    <span>Total players: ${players.length}</span>
                     <span>Last updated: ${escapeHtml(lastUpdated)}</span>
                 </div>
             </div>
@@ -270,13 +261,13 @@ function renderHtml(users, generatedAt) {
                 <table>
                     <thead>
                         <tr>
-                            <th>UID</th>
+                            <th>Rank</th>
+                            <th>Player</th>
                             <th>Email</th>
-                            <th>Created At</th>
-                            <th>Last Sign-In At</th>
+                            <th>Score</th>
                         </tr>
                     </thead>
-                    <tbody>${renderRows(users)}
+                    <tbody>${renderRows(players)}
                     </tbody>
                 </table>
             </div>
@@ -286,17 +277,18 @@ function renderHtml(users, generatedAt) {
 </html>`;
 }
 
-async function fetchUsers() {
+async function fetchPlayers() {
     const snapshot = await admin.firestore().collection(COLLECTION_NAME).get();
 
     return snapshot.docs.map((doc) => {
         const data = doc.data() || {};
+        const playerName = getFirstString(data, NAME_FIELDS) || data.email || doc.id;
 
         return {
             uid: doc.id,
             email: data.email || "",
-            createdAt: data.createdAt,
-            lastSignInAt: data.lastSignInAt
+            playerName,
+            score: getScore(data)
         };
     });
 }
@@ -308,12 +300,12 @@ async function main() {
         credential: admin.credential.cert(serviceAccount)
     });
 
-    const users = sortUsers(await fetchUsers());
-    const html = renderHtml(users, new Date());
+    const players = sortPlayers(await fetchPlayers());
+    const html = renderHtml(players, new Date());
 
     fs.writeFileSync(OUTPUT_PATH, html, "utf8");
 
-    console.log(`Generated ${OUTPUT_PATH} with ${users.length} users.`);
+    console.log(`Generated ${OUTPUT_PATH} with ${players.length} players.`);
 }
 
 main().catch((error) => {
