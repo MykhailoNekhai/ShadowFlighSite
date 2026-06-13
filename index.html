@@ -1,38 +1,65 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="BADLAND — атмосферна гра про виживання, рух і небезпеки. Завантажуйте гру, дивіться скріншоти та стежте за оновленнями.">
+    <meta
+        name="description"
+        content="BADLAND is a cinematic survival platformer landing page with animated atmosphere, multilingual support, and theme switching."
+    >
     <title>BADLAND</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="backdrop" aria-hidden="true">
-        <div class="backdrop__sun"></div>
+        <div class="backdrop__halo"></div>
         <div class="backdrop__fog backdrop__fog--one"></div>
         <div class="backdrop__fog backdrop__fog--two"></div>
+        <div class="backdrop__grid"></div>
+        <div class="backdrop__orbs">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <div class="backdrop__terrain"></div>
     </div>
 
     <header class="site-header">
         <div class="container site-header__inner">
             <a class="logo" href="#top">BADLAND</a>
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="siteNav">
+
+            <div class="site-header__controls">
+                <nav class="site-nav" id="siteNav">
+                    <a href="#about" data-i18n="nav.about">About</a>
+                    <a href="#features" data-i18n="nav.features">Features</a>
+                    <a href="#gallery" data-i18n="nav.gallery">World</a>
+                    <a href="#download" data-i18n="nav.download">Download</a>
+                    <a href="#contact" data-i18n="nav.contact">Contact</a>
+                </nav>
+
+                <div class="toolbar">
+                    <div class="segmented-control" role="group" aria-label="Language switcher">
+                        <button class="segmented-control__button is-active" type="button" data-language="en">EN</button>
+                        <button class="segmented-control__button" type="button" data-language="uk">UA</button>
+                    </div>
+
+                    <button class="theme-toggle" type="button" aria-label="Switch theme">
+                        <span class="theme-toggle__track">
+                            <span class="theme-toggle__thumb"></span>
+                        </span>
+                        <span class="theme-toggle__label" data-i18n="theme.label">Night Mode</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open navigation">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <nav class="site-nav" id="siteNav">
-                <a href="#about">Про гру</a>
-                <a href="#features">Особливості</a>
-                <a href="#gallery">Скріншоти</a>
-                <a href="#download">Завантажити</a>
-                <a href="#contact">Контакти</a>
-            </nav>
         </div>
     </header>
 
@@ -40,55 +67,60 @@
         <section class="hero">
             <div class="container hero__grid">
                 <div class="hero__content">
-                    <p class="eyebrow">Indie Game Landing Page</p>
-                    <h1>Темний світ. Живий ритм. Один неправильний рух.</h1>
-                    <p class="hero__text">
-                        BADLAND — це атмосферна гра з небезпечними рівнями, пастками, польотом,
-                        інерцією та напругою в кожній секунді проходження.
+                    <p class="eyebrow reveal" data-i18n="hero.eyebrow">Cinematic survival platformer</p>
+                    <h1 class="reveal reveal--delay-1" data-i18n="hero.title">A broken sky. A living forest. One second from collapse.</h1>
+                    <p class="hero__text reveal reveal--delay-2" data-i18n="hero.text">
+                        BADLAND throws you into a hostile silhouette world where momentum, traps, wind tunnels, and timing decide whether you glide through or get torn apart.
                     </p>
-                    <div class="hero__actions">
-                        <a class="button button--primary" href="#download">Download</a>
-                        <a class="button button--ghost" href="#gallery">View Screens</a>
+                    <div class="hero__actions reveal reveal--delay-3">
+                        <a class="button button--primary" href="#download" data-i18n="hero.primaryCta">Download Build</a>
+                        <a class="button button--ghost" href="#gallery" data-i18n="hero.secondaryCta">See the world</a>
                     </div>
-                    <ul class="hero__stats">
-                        <li><strong>1-2</strong><span>гравці</span></li>
-                        <li><strong>PC</strong><span>платформа</span></li>
-                        <li><strong>2026</strong><span>активна розробка</span></li>
+                    <ul class="hero__stats reveal reveal--delay-4">
+                        <li>
+                            <strong>1-4</strong>
+                            <span data-i18n="hero.stats.players">players in chaos</span>
+                        </li>
+                        <li>
+                            <strong>34+</strong>
+                            <span data-i18n="hero.stats.hazards">reactive hazards</span>
+                        </li>
+                        <li>
+                            <strong>2026</strong>
+                            <span data-i18n="hero.stats.status">active development</span>
+                        </li>
                     </ul>
                 </div>
 
-                <div class="hero__panel">
+                <aside class="hero__panel reveal reveal--delay-2">
                     <div class="hero-card">
-                        <p class="hero-card__label">Current Build</p>
-                        <h2>Prototype Desktop Build</h2>
-                        <p>
-                            Тут пізніше можна поставити номер версії, changelog, дату релізу
-                            або пряме посилання на останній `.exe`.
+                        <p class="hero-card__label" data-i18n="build.label">Current build</p>
+                        <h2 data-i18n="build.title">Prototype desktop drop</h2>
+                        <p data-i18n="build.text">
+                            The current version is tuned for punchy traversal, dense silhouettes, and the tense stop-start rhythm that makes each level feel unstable.
                         </p>
                         <div class="hero-card__meta">
-                            <span>Windows</span>
-                            <span>Singleplayer / Co-op</span>
+                            <span data-i18n="build.meta.platform">Windows</span>
+                            <span data-i18n="build.meta.mode">Solo / Co-op</span>
+                            <span data-i18n="build.meta.update">Atmospheric pass</span>
                         </div>
                     </div>
-                </div>
+                </aside>
             </div>
         </section>
 
-        <section class="section" id="about">
+        <section class="section section--story" id="about">
             <div class="container section__grid">
-                <div>
-                    <p class="eyebrow">Про гру</p>
-                    <h2>Сайт можна міняти як завгодно, це лише стартовий каркас</h2>
+                <div class="section-heading reveal">
+                    <p class="eyebrow" data-i18n="about.eyebrow">The mood</p>
+                    <h2 data-i18n="about.title">The page now sells the feeling, not just the build.</h2>
                 </div>
-                <div class="copy-block">
-                    <p>
-                        Цей шаблон зроблений так, щоб ви могли далі безболісно міняти тексти,
-                        кольори, блоки, скріни, кнопки та структуру сторінки. Він не зав’язаний
-                        на складний стек і нормально підходить для `Cloudflare Pages`.
+                <div class="copy-block reveal reveal--delay-1">
+                    <p data-i18n="about.copy1">
+                        This landing page leans into the BADLAND identity: scorched light, drifting haze, rough silhouettes, and a sense that the world is beautiful right before it becomes dangerous.
                     </p>
-                    <p>
-                        Якщо захочете, сюди можна додати трейлер, devlog, FAQ, форму зворотного
-                        зв’язку, сторінку новин або окремий розділ під кооперативний режим.
+                    <p data-i18n="about.copy2">
+                        The structure stays lightweight and static, so you can still deploy it easily, swap screenshots later, and attach the real game build without rebuilding the whole site.
                     </p>
                 </div>
             </div>
@@ -96,71 +128,83 @@
 
         <section class="section" id="features">
             <div class="container">
-                <p class="eyebrow">Особливості</p>
+                <div class="section-heading reveal">
+                    <p class="eyebrow" data-i18n="features.eyebrow">Why it hits</p>
+                    <h2 data-i18n="features.title">More movement. More tension. More silhouette drama.</h2>
+                </div>
                 <div class="feature-grid">
-                    <article class="feature-card">
+                    <article class="feature-card reveal">
                         <span class="feature-card__index">01</span>
-                        <h3>Атмосфера</h3>
-                        <p>Темна візуальна подача, глибокий фон і напружений темп проходження.</p>
+                        <h3 data-i18n="features.items.0.title">Predator atmosphere</h3>
+                        <p data-i18n="features.items.0.text">Heavy fog layers, ember lighting, and slow parallax create a world that feels alive before you even press play.</p>
                     </article>
-                    <article class="feature-card">
+                    <article class="feature-card reveal reveal--delay-1">
                         <span class="feature-card__index">02</span>
-                        <h3>Фізика руху</h3>
-                        <p>Польоти, інерція, зіткнення і контроль, який відчувається руками.</p>
+                        <h3 data-i18n="features.items.1.title">Readable velocity</h3>
+                        <p data-i18n="features.items.1.text">The layout pushes motion as a core fantasy: gliding arcs, sharp impacts, and split-second corrections.</p>
                     </article>
-                    <article class="feature-card">
+                    <article class="feature-card reveal reveal--delay-2">
                         <span class="feature-card__index">03</span>
-                        <h3>Небезпеки</h3>
-                        <p>Пастки, перепони і вузькі місця, де помилки дорого коштують.</p>
+                        <h3 data-i18n="features.items.2.title">Hazard rhythm</h3>
+                        <p data-i18n="features.items.2.text">Every section can communicate danger through spacing, animation, and contrast instead of flat placeholder blocks.</p>
                     </article>
-                    <article class="feature-card">
+                    <article class="feature-card reveal reveal--delay-3">
                         <span class="feature-card__index">04</span>
-                        <h3>Кооператив</h3>
-                        <p>Блок під кооп можна легко розширити, коли доробите мережеву частину.</p>
+                        <h3 data-i18n="features.items.3.title">Dual presentation</h3>
+                        <p data-i18n="features.items.3.text">Visitors can switch language and theme without losing the visual identity or the cinematic pacing.</p>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section class="section" id="gallery">
+        <section class="section section--world" id="gallery">
             <div class="container">
-                <div class="section-heading">
-                    <div>
-                        <p class="eyebrow">Скріншоти</p>
-                        <h2>Поки без реальних зображень, але місце вже готове</h2>
-                    </div>
+                <div class="section-heading reveal">
+                    <p class="eyebrow" data-i18n="world.eyebrow">World slices</p>
+                    <h2 data-i18n="world.title">A darker, stranger ecosystem with room for real screenshots later.</h2>
                 </div>
                 <div class="gallery-grid">
-                    <div class="gallery-card">Screenshot 01</div>
-                    <div class="gallery-card gallery-card--tall">Screenshot 02</div>
-                    <div class="gallery-card">Screenshot 03</div>
-                    <div class="gallery-card">Screenshot 04</div>
+                    <article class="gallery-card reveal">
+                        <span class="gallery-card__label" data-i18n="world.cards.0.label">Ash forest</span>
+                        <h3 data-i18n="world.cards.0.title">Crushed branches, molten horizon, zero safety.</h3>
+                    </article>
+                    <article class="gallery-card gallery-card--tall reveal reveal--delay-1">
+                        <span class="gallery-card__label" data-i18n="world.cards.1.label">Pressure corridor</span>
+                        <h3 data-i18n="world.cards.1.title">A vertical descent where every rotating blade changes the route.</h3>
+                    </article>
+                    <article class="gallery-card reveal reveal--delay-2">
+                        <span class="gallery-card__label" data-i18n="world.cards.2.label">Spore caverns</span>
+                        <h3 data-i18n="world.cards.2.title">Soft light, floating particles, and something hostile just outside view.</h3>
+                    </article>
+                    <article class="gallery-card reveal reveal--delay-3">
+                        <span class="gallery-card__label" data-i18n="world.cards.3.label">Machine roots</span>
+                        <h3 data-i18n="world.cards.3.title">Organic silhouettes fused with metal traps and unstable energy.</h3>
+                    </article>
                 </div>
             </div>
         </section>
 
         <section class="section section--accent" id="download">
-            <div class="container download-panel">
+            <div class="container download-panel reveal">
                 <div>
-                    <p class="eyebrow">Завантаження</p>
-                    <h2>Кнопку потім просто прив’яжете до вашого `.exe`</h2>
-                    <p>
-                        Зараз це демо-кнопка. Пізніше можна поставити пряме посилання на
-                        `GitHub Releases`, `Cloudflare R2` або інше сховище.
+                    <p class="eyebrow" data-i18n="download.eyebrow">Get the build</p>
+                    <h2 data-i18n="download.title">Hook this button to the real executable when the next drop is ready.</h2>
+                    <p data-i18n="download.text">
+                        Right now this is a polished placeholder. Later you can connect it to GitHub Releases, Cloudflare R2, itch.io, or any direct file link.
                     </p>
                 </div>
                 <div class="download-actions">
-                    <a class="button button--primary" href="#" id="downloadButton">Download for Windows</a>
-                    <p class="download-note">Поточна дія: тимчасовий placeholder без реального файлу.</p>
+                    <a class="button button--primary button--wide" href="#" id="downloadButton" data-i18n="download.button">Download for Windows</a>
+                    <p class="download-note" data-i18n="download.note">Current action: placeholder only, no real build attached yet.</p>
                 </div>
             </div>
         </section>
 
         <section class="section" id="contact">
-            <div class="container contact-strip">
+            <div class="container contact-strip reveal">
                 <div>
-                    <p class="eyebrow">Контакти</p>
-                    <h2>Місце під соцмережі, пошту і спільноту</h2>
+                    <p class="eyebrow" data-i18n="contact.eyebrow">Signals</p>
+                    <h2 data-i18n="contact.title">Keep the community orbiting the project.</h2>
                 </div>
                 <div class="contact-links">
                     <a href="#">Discord</a>
@@ -175,7 +219,7 @@
     <footer class="site-footer">
         <div class="container site-footer__inner">
             <p>BADLAND</p>
-            <p>&copy; <span id="year"></span> All rights reserved.</p>
+            <p>&copy; <span id="year"></span> <span data-i18n="footer.rights">All rights reserved.</span></p>
         </div>
     </footer>
 
