@@ -9,6 +9,7 @@ const translations = {
             features: "Features",
             gallery: "World",
             download: "Download",
+            users: "Users",
             contact: "Contact"
         },
         theme: {
@@ -113,6 +114,7 @@ const translations = {
             features: "Фішки",
             gallery: "Світ",
             download: "Завантажити",
+            users: "Користувачі",
             contact: "Контакти"
         },
         theme: {
