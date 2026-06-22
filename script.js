@@ -1,290 +1,286 @@
+const yearNode = document.getElementById("year");
+const navToggle = document.querySelector(".nav-toggle");
+const siteNav = document.getElementById("siteNav");
+const languageButtons = document.querySelectorAll("[data-language]");
+const themeToggle = document.querySelector(".theme-toggle");
+const themeLabel = document.querySelector(".theme-toggle__label");
+const musicToggle = document.querySelector(".music-toggle");
+const musicToggleLabel = document.querySelector(".music-toggle__label");
+const bgMusic = document.getElementById("bgMusic");
+const downloadButton = document.getElementById("downloadButton");
+const trailerPlay = document.getElementById("trailerPlay");
+const revealNodes = document.querySelectorAll(".reveal");
+const particleHost = document.getElementById("particles");
+const root = document.documentElement;
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const storageKeyTheme = "shadow-flight-theme";
+const storageKeyLanguage = "shadow-flight-language";
+const storageKeyMusicMuted = "shadow-flight-music-muted";
+let currentTheme = localStorage.getItem(storageKeyTheme) || root.getAttribute("data-theme") || "ember";
+let currentLanguage = localStorage.getItem(storageKeyLanguage) || "en";
+let musicMuted = localStorage.getItem(storageKeyMusicMuted) === "true";
+
 const translations = {
     en: {
-        meta: {
-            title: "BADLAND",
-            description: "BADLAND is a cinematic survival platformer landing page with animated atmosphere, multilingual support, and theme switching."
-        },
         nav: {
             about: "About",
+            gameplay: "Gameplay",
             features: "Features",
-            gallery: "World",
-            download: "Download",
-            users: "Leaderboard",
+            status: "Status",
             contact: "Contact"
         },
-        theme: {
-            label: "Night Mode",
-            aria: "Switch theme"
+        common: {
+            download: "Download"
+        },
+        sound: {
+            mute: "On",
+            on: "Off"
         },
         hero: {
-            eyebrow: "Cinematic survival platformer",
-            title: "A broken sky. A living forest. One second from collapse.",
-            text: "BADLAND throws you into a hostile silhouette world where momentum, traps, wind tunnels, and timing decide whether you glide through or get torn apart.",
-            primaryCta: "Download Build",
-            secondaryCta: "See the world",
-            stats: {
-                players: "players in chaos",
-                hazards: "reactive hazards",
-                status: "active development"
-            }
+            eyebrow: "Dark fantasy side-scrolling adventure",
+            title: "Shadow Flight",
+            tagline: "Fly through the dark. Survive what follows.",
+            text: "Enter a world where light is fading, every path is dangerous, and every second matters. You control a mysterious shadow creature trying to escape a hostile land full of ruins, traps, thorns, moving mechanisms, and hidden dangers.",
+            ctaTrailer: "Watch Trailer",
+            ctaDownload: "Download"
         },
-        build: {
-            label: "Current build",
-            title: "Prototype desktop drop",
-            text: "The current version is tuned for punchy traversal, dense silhouettes, and the tense stop-start rhythm that makes each level feel unstable.",
-            meta: {
-                platform: "Windows",
-                mode: "Solo / Co-op",
-                update: "Atmospheric pass"
-            }
+        trailer: {
+            label: "Watch The Gameplay · Coming soon",
+            alert: "The trailer is not ready yet. Check back soon."
         },
         about: {
-            eyebrow: "The mood",
-            title: "The page now sells the feeling, not just the build.",
-            copy1: "This landing page leans into the BADLAND identity: scorched light, drifting haze, rough silhouettes, and a sense that the world is beautiful right before it becomes dangerous.",
-            copy2: "The structure stays lightweight and static, so you can still deploy it easily, swap screenshots later, and attach the real game build without rebuilding the whole site."
+            eyebrow: "About The Game",
+            visualLabel: "atmospheric levels",
+            textOne: "ShadowFlight is a dark atmospheric platformer built around movement, timing, and survival. You fly through hand-crafted levels filled with deadly obstacles, strange power-ups, and unpredictable physics-based challenges.",
+            textTwo: "The game is simple to understand, but every level pushes you harder. Sometimes you need patience. Sometimes you need speed. Sometimes one mistake is enough to lose everything. The deeper you go, the darker and more dangerous the world becomes.",
+            textThree: "Use power-ups to clone yourself, change size, speed up, slow down, and survive situations that look impossible at first. Play alone or join a friend in co-op mode and face the darkness together."
+        },
+        gameplay: {
+            eyebrow: "Gameplay",
+            visualLabel: "ways to die",
+            title: "Fly, dodge, react, and adapt.",
+            textOne: "ShadowFlight is not only about reaching the end of the level — it is about surviving the journey. Each stage introduces new hazards, new rhythms, and new ways to test your control.",
+            textTwo: "The game rewards precision, timing, and quick thinking. Every trap has a pattern. Every obstacle has a way through. You just have to find it before the darkness catches you."
         },
         features: {
-            eyebrow: "Why it hits",
-            title: "More movement. More tension. More silhouette drama.",
-            items: [
-                {
-                    title: "Predator atmosphere",
-                    text: "Heavy fog layers, ember lighting, and slow parallax create a world that feels alive before you even press play."
-                },
-                {
-                    title: "Readable velocity",
-                    text: "The layout pushes motion as a core fantasy: gliding arcs, sharp impacts, and split-second corrections."
-                },
-                {
-                    title: "Hazard rhythm",
-                    text: "Every section can communicate danger through spacing, animation, and contrast instead of flat placeholder blocks."
-                },
-                {
-                    title: "Dual presentation",
-                    text: "Visitors can switch language and theme without losing the visual identity or the cinematic pacing."
-                }
-            ]
+            eyebrow: "Features",
+            one: "20 atmospheric levels",
+            two: "dark fantasy world with ruins, thorns, traps, and dangerous machines",
+            three: "physics-based movement and challenging level design",
+            four: "power-ups: clone, grow, shrink, speed up, and slow down",
+            five: "solo mode and co-op gameplay",
+            six: "achievements and player statistics",
+            seven: "character customization",
+            eight: "immersive sound and dark visual atmosphere"
         },
-        world: {
-            eyebrow: "World slices",
-            title: "A darker, stranger ecosystem with room for real screenshots later.",
-            cards: [
-                {
-                    label: "Ash forest",
-                    title: "Crushed branches, molten horizon, zero safety."
-                },
-                {
-                    label: "Pressure corridor",
-                    title: "A vertical descent where every rotating blade changes the route."
-                },
-                {
-                    label: "Spore caverns",
-                    title: "Soft light, floating particles, and something hostile just outside view."
-                },
-                {
-                    label: "Machine roots",
-                    title: "Organic silhouettes fused with metal traps and unstable energy."
-                }
-            ]
+        status: {
+            eyebrow: "Development status",
+            title: "Currently in development.",
+            text: "Shadow Flight is focused on atmosphere, movement, level danger, and immersive world-building. The current direction prioritizes a strong playable mood before content scale."
         },
         download: {
-            eyebrow: "Get the build",
-            title: "Hook this button to the real executable when the next drop is ready.",
-            text: "Right now this is a polished placeholder. Later you can connect it to GitHub Releases, Cloudflare R2, itch.io, or any direct file link.",
-            button: "Download for Windows",
-            note: "Current action: placeholder only, no real build attached yet.",
-            alert: "There is no real file here yet. Replace this placeholder with the link to your .exe build later."
+            eyebrow: "Prototype access",
+            title: "Ready to enter the darkness?",
+            text: "Download ShadowFlight and begin your flight through a world built to stop you.",
+            button: "Prototype",
+            note: "Current action: placeholder only, no build attached yet.",
+            alert: "No build is attached yet. Replace this placeholder with your real download link later."
         },
-        contact: {
-            eyebrow: "Signals",
-            title: "Keep the community orbiting the project."
+        sysreqs: {
+            eyebrow: "System Requirements",
+            minimum: "Minimum",
+            recommended: "Recommended",
+            os: "OS",
+            cpu: "CPU",
+            ram: "RAM",
+            gpu: "GPU",
+            storage: "Storage",
+            display: "Display",
+            java: "Java",
+            internet: "Internet"
+        },
+        fab: {
+            leaderboard: "Leaderboard"
         },
         footer: {
-            rights: "All rights reserved."
+            title: "Shadow Flight",
+            copy: "Have questions, feedback, or want to contact the developer? Reach out through the links below.",
+            trailer: "Trailer",
+            legal: "Shadow Flight. All rights reserved."
         }
     },
     uk: {
-        meta: {
-            title: "BADLAND",
-            description: "BADLAND — це кінематографічний лендінг для survival-платформера з анімованою атмосферою, двома мовами та перемикачем тем."
-        },
         nav: {
             about: "Про гру",
-            features: "Фішки",
-            gallery: "Світ",
-            download: "Завантажити",
-            users: "Лідери",
+            gameplay: "Геймплей",
+            features: "Особливості",
+            status: "Статус",
             contact: "Контакти"
         },
-        theme: {
-            label: "Нічний режим",
-            aria: "Перемкнути тему"
+        common: {
+            download: "Завантажити"
+        },
+        sound: {
+            mute: "On",
+            on: "Off"
         },
         hero: {
-            eyebrow: "Кінематографічний survival-платформер",
-            title: "Зламане небо. Живий ліс. Одна секунда до краху.",
-            text: "BADLAND кидає гравця у ворожий світ силуетів, де інерція, пастки, повітряні потоки й таймінг вирішують, чи пролетиш ти далі, чи розіб'єшся.",
-            primaryCta: "Завантажити білд",
-            secondaryCta: "Подивитися світ",
-            stats: {
-                players: "гравці в хаосі",
-                hazards: "реактивні небезпеки",
-                status: "активна розробка"
-            }
+            eyebrow: "Темний атмосферний платформер",
+            title: "Shadow Flight",
+            tagline: "Лети крізь темряву. Вижи те, що слідує за тобою.",
+            text: "Світ, де світло згасає, кожен шлях небезпечний, а кожна секунда має значення. Ти керуєш таємничою тіньовою істотою, яка намагається втекти з ворожої землі, повної руїн, пасток, шипів, рухомих механізмів і прихованих небезпек.",
+            ctaTrailer: "Дивитися трейлер",
+            ctaDownload: "Завантажити"
         },
-        build: {
-            label: "Поточний білд",
-            title: "Прототип десктопної версії",
-            text: "Поточна версія зібрана навколо різкого руху, щільних силуетів і нервового ритму, через який кожен рівень відчувається нестабільним.",
-            meta: {
-                platform: "Windows",
-                mode: "Соло / Кооп",
-                update: "Атмосферний пас"
-            }
+        trailer: {
+            label: "Дивитися геймплей · Незабаром",
+            alert: "Трейлер ще не готовий. Повертайся пізніше."
         },
         about: {
-            eyebrow: "Настрій",
-            title: "Тепер сторінка продає відчуття, а не просто збірку.",
-            copy1: "Цей лендінг сильніше заходить у вайб BADLAND: випалене світло, дрейфуючий туман, грубі силуети й відчуття, що світ прекрасний саме за секунду до небезпеки.",
-            copy2: "Структура лишається легкою й статичною, тому сайт так само просто деплоїти, міняти скріншоти пізніше й підв'язати реальний білд гри без перебудови всього проєкту."
+            eyebrow: "Про гру",
+            visualLabel: "атмосферні рівні",
+            textOne: "ShadowFlight — це темний атмосферний платформер, побудований навколо руху, таймінгу та виживання. Ти летиш крізь рукотворні рівні, повні смертельних перешкод, дивних поліпшень і непередбачуваних фізичних викликів.",
+            textTwo: "Гра проста для розуміння, але кожен рівень тисне все сильніше. Іноді потрібна терпеливість. Іноді — швидкість. Іноді одна помилка означає втрату всього. Чим глибше заходиш, тим темніший і небезпечніший світ.",
+            textThree: "Використовуй поліпшення, щоб клонувати себе, змінювати розмір, прискорюватись, сповільнюватись і виживати в ситуаціях, що здаються неможливими. Грай сам або з другом у кооп-режимі."
+        },
+        gameplay: {
+            eyebrow: "Геймплей",
+            visualLabel: "способів загинути",
+            title: "Лети, ухиляйся, реагуй і адаптуйся.",
+            textOne: "ShadowFlight — це не лише про досягнення кінця рівня, а про те, щоб вижити у дорозі. Кожен етап вводить нові небезпеки, нові ритми і нові способи перевірити твій контроль.",
+            textTwo: "Гра винагороджує точність, таймінг і швидке мислення. Кожна пастка має патерн. Кожна перешкода має вихід. Тобі лише треба знайти його до того, як темрява тебе наздожене."
         },
         features: {
-            eyebrow: "Чому чіпляє",
-            title: "Більше руху. Більше напруги. Більше драми в силуетах.",
-            items: [
-                {
-                    title: "Хижа атмосфера",
-                    text: "Важкі шари туману, жарке світло й повільний паралакс створюють відчуття живого світу ще до старту гри."
-                },
-                {
-                    title: "Читабельна швидкість",
-                    text: "Лендінг підкреслює рух як головну фантазію: планерування, різкі удари й мікрокорекції в останню мить."
-                },
-                {
-                    title: "Ритм небезпеки",
-                    text: "Кожен блок може передавати загрозу через композицію, анімацію і контраст, а не через плоскі заглушки."
-                },
-                {
-                    title: "Два режими подачі",
-                    text: "Користувач може перемкнути мову й тему, не втрачаючи цілісного кінематографічного характеру сайту."
-                }
-            ]
+            eyebrow: "Особливості",
+            one: "20 атмосферних рівнів",
+            two: "темний фентезійний світ з руїнами, шипами, пастками і небезпечними машинами",
+            three: "фізичний рух і складний дизайн рівнів",
+            four: "поліпшення: клон, збільшення, зменшення, прискорення та сповільнення",
+            five: "одиночний режим і кооп",
+            six: "досягнення та статистика гравців",
+            seven: "кастомізація персонажа",
+            eight: "атмосферний звук і темна візуальна атмосфера"
         },
-        world: {
-            eyebrow: "Фрагменти світу",
-            title: "Темніша, дивніша екосистема з місцем під реальні скріншоти пізніше.",
-            cards: [
-                {
-                    label: "Попелястий ліс",
-                    title: "Зламані гілки, розпечений горизонт і нуль безпеки."
-                },
-                {
-                    label: "Коридор тиску",
-                    title: "Вертикальний спуск, де кожна лопать змінює траєкторію."
-                },
-                {
-                    label: "Спорові печери",
-                    title: "М'яке світло, частинки в повітрі й щось вороже за межами кадру."
-                },
-                {
-                    label: "Машинні корені",
-                    title: "Органічні силуети, злиті з металевими пастками й нестабільною енергією."
-                }
-            ]
+        status: {
+            eyebrow: "Статус розробки",
+            title: "Наразі в розробці.",
+            text: "Shadow Flight зосереджений на атмосфері, русі, небезпеці рівнів та занурювальному світобудуванні. Поточний напрям пріоритезує сильний ігровий настрій ще до масштабування контенту."
         },
         download: {
-            eyebrow: "Отримати білд",
-            title: "Підв'яжи цю кнопку до реального `.exe`, коли буде готовий наступний реліз.",
-            text: "Зараз це акуратний placeholder. Пізніше сюди можна підключити GitHub Releases, Cloudflare R2, itch.io або пряме посилання на файл.",
-            button: "Завантажити для Windows",
-            note: "Поточна дія: тільки placeholder, реальний білд ще не прикріплено.",
-            alert: "Поки що тут немає реального файла. Пізніше підстав сюди посилання на свій `.exe`."
+            eyebrow: "Доступ до прототипу",
+            title: "Готовий увійти в темряву?",
+            text: "Завантаж ShadowFlight і почни свій політ крізь світ, побудований щоб зупинити тебе.",
+            button: "Прототип",
+            note: "Поточна дія: лише заглушка, реальний білд ще не прикріплено.",
+            alert: "Білд ще не прикріплено. Пізніше заміни цю заглушку на реальне посилання для завантаження."
         },
-        contact: {
-            eyebrow: "Сигнали",
-            title: "Тримай спільноту на орбіті навколо проєкту."
+        sysreqs: {
+            eyebrow: "Системні вимоги",
+            minimum: "Мінімум",
+            recommended: "Рекомендовано",
+            os: "ОС",
+            cpu: "ЦП",
+            ram: "ОЗП",
+            gpu: "ВК",
+            storage: "Пам'ять",
+            display: "Екран",
+            java: "Java",
+            internet: "Інтернет"
+        },
+        fab: {
+            leaderboard: "Таблиця лідерів"
         },
         footer: {
-            rights: "Усі права захищено."
+            title: "Shadow Flight",
+            copy: "Є питання, відгуки або хочеш зв'язатись з розробником? Пиши через посилання нижче.",
+            trailer: "Трейлер",
+            legal: "Shadow Flight. Усі права захищено."
         }
     }
 };
 
-const storageKeys = {
-    language: "badland-language",
-    theme: "badland-theme"
+const getValueByPath = (object, path) => path.split(".").reduce((value, key) => value?.[key], object);
+
+const applyTheme = (theme) => {
+    currentTheme = theme === "ivory" ? "ivory" : "ember";
+    root.setAttribute("data-theme", currentTheme);
+    localStorage.setItem(storageKeyTheme, currentTheme);
+
+    if (themeLabel) {
+        themeLabel.textContent = currentTheme === "ivory" ? "Ivory" : "Ember";
+    }
+
+    if (themeToggle) {
+        themeToggle.setAttribute("aria-label", currentTheme === "ivory" ? "Switch to Ember mode" : "Switch to Ivory mode");
+    }
 };
 
-const yearNode = document.getElementById("year");
-const htmlNode = document.documentElement;
-const navToggle = document.querySelector(".nav-toggle");
-const siteHeaderControls = document.querySelector(".site-header__controls");
-const themeToggle = document.querySelector(".theme-toggle");
-const themeLabel = document.querySelector(".theme-toggle__label");
-const languageButtons = document.querySelectorAll("[data-language]");
-const downloadButton = document.getElementById("downloadButton");
-const descriptionNode = document.querySelector('meta[name="description"]');
-const revealNodes = document.querySelectorAll(".reveal");
-const backdropHalo = document.querySelector(".backdrop__halo");
-const backdropFogs = document.querySelectorAll(".backdrop__fog");
+const applyMusicState = (muted) => {
+    musicMuted = Boolean(muted);
+    localStorage.setItem(storageKeyMusicMuted, String(musicMuted));
 
-let currentLanguage = localStorage.getItem(storageKeys.language) || "en";
-let currentTheme = localStorage.getItem(storageKeys.theme) || "dark";
+    if (bgMusic) {
+        bgMusic.muted = musicMuted;
 
-const getValueByPath = (object, path) => {
-    return path.split(".").reduce((value, key) => {
-        if (value === undefined || value === null) {
-            return undefined;
+        if (musicMuted) {
+            bgMusic.pause();
+        } else if (bgMusic.dataset.started === "true") {
+            bgMusic.play().catch(() => {});
+        } else {
+            startBackgroundMusic();
         }
+    }
 
-        if (/^\d+$/.test(key)) {
-            return value[Number(key)];
-        }
+    const dictionary = translations[currentLanguage] || translations.en;
 
-        return value[key];
-    }, object);
+    const label = musicMuted ? dictionary.sound.on : dictionary.sound.mute;
+
+    if (musicToggleLabel) {
+        musicToggleLabel.textContent = label;
+    }
+
+    if (musicToggle) {
+        musicToggle.setAttribute("aria-label", label);
+        musicToggle.classList.toggle("is-muted", musicMuted);
+    }
+};
+
+const startBackgroundMusic = async () => {
+    if (!bgMusic || bgMusic.dataset.started === "true" || musicMuted) {
+        return;
+    }
+
+    bgMusic.volume = 0.25;
+    bgMusic.playbackRate = 1;
+
+    try {
+        await bgMusic.play();
+        bgMusic.dataset.started = "true";
+    } catch {
+        // Browsers may block autoplay until the first user gesture.
+    }
 };
 
 const applyLanguage = (language) => {
-    const dictionary = translations[language] || translations.en;
-    currentLanguage = language;
+    currentLanguage = language === "uk" ? "uk" : "en";
+    const dictionary = translations[currentLanguage];
 
-    document.title = dictionary.meta.title;
-    htmlNode.lang = language;
-
-    if (descriptionNode) {
-        descriptionNode.setAttribute("content", dictionary.meta.description);
-    }
+    root.lang = currentLanguage;
 
     document.querySelectorAll("[data-i18n]").forEach((node) => {
-        const key = node.getAttribute("data-i18n");
-        const value = getValueByPath(dictionary, key);
+        const value = getValueByPath(dictionary, node.getAttribute("data-i18n") || "");
 
         if (typeof value === "string") {
             node.textContent = value;
         }
     });
 
-    if (themeToggle) {
-        themeToggle.setAttribute("aria-label", dictionary.theme.aria);
-    }
-
-    if (themeLabel) {
-        themeLabel.textContent = dictionary.theme.label;
-    }
-
     languageButtons.forEach((button) => {
-        button.classList.toggle("is-active", button.getAttribute("data-language") === language);
+        button.classList.toggle("is-active", button.getAttribute("data-language") === currentLanguage);
     });
 
-    localStorage.setItem(storageKeys.language, language);
-};
-
-const applyTheme = (theme) => {
-    currentTheme = theme === "light" ? "light" : "dark";
-    htmlNode.setAttribute("data-theme", currentTheme);
-    localStorage.setItem(storageKeys.theme, currentTheme);
+    localStorage.setItem(storageKeyLanguage, currentLanguage);
+    applyMusicState(musicMuted);
 };
 
 if (yearNode) {
@@ -293,6 +289,35 @@ if (yearNode) {
 
 applyTheme(currentTheme);
 applyLanguage(currentLanguage);
+applyMusicState(musicMuted);
+startBackgroundMusic();
+
+if (navToggle && siteNav) {
+    navToggle.addEventListener("click", () => {
+        const open = siteNav.classList.toggle("is-open");
+        navToggle.setAttribute("aria-expanded", String(open));
+    });
+
+    siteNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            siteNav.classList.remove("is-open");
+            navToggle.setAttribute("aria-expanded", "false");
+        });
+    });
+}
+
+if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+        applyTheme(currentTheme === "ember" ? "ivory" : "ember");
+        startBackgroundMusic();
+    });
+}
+
+if (musicToggle) {
+    musicToggle.addEventListener("click", () => {
+        applyMusicState(!musicMuted);
+    });
+}
 
 languageButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -300,40 +325,18 @@ languageButtons.forEach((button) => {
     });
 });
 
-if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-        applyTheme(currentTheme === "dark" ? "light" : "dark");
-    });
-}
-
-if (navToggle && siteHeaderControls) {
-    navToggle.addEventListener("click", () => {
-        const open = siteHeaderControls.classList.toggle("is-open");
-        navToggle.setAttribute("aria-expanded", String(open));
-    });
-
-    siteHeaderControls.querySelectorAll("a, button").forEach((element) => {
-        element.addEventListener("click", () => {
-            if (window.innerWidth > 820) {
-                return;
-            }
-
-            siteHeaderControls.classList.remove("is-open");
-            navToggle.setAttribute("aria-expanded", "false");
-        });
-    });
-}
-
 if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                observer.unobserve(entry.target);
+            if (!entry.isIntersecting) {
+                return;
             }
+
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
         });
     }, {
-        threshold: 0.18,
+        threshold: 0.16,
         rootMargin: "0px 0px -40px 0px"
     });
 
@@ -342,32 +345,89 @@ if ("IntersectionObserver" in window) {
     revealNodes.forEach((node) => node.classList.add("is-visible"));
 }
 
-if (downloadButton) {
-    downloadButton.addEventListener("click", (event) => {
-        if (downloadButton.getAttribute("href") === "#") {
-            event.preventDefault();
-            const dictionary = translations[currentLanguage] || translations.en;
-            window.alert(dictionary.download.alert);
-        }
+if (trailerPlay) {
+    trailerPlay.addEventListener("click", () => {
+        window.alert(translations[currentLanguage].trailer.alert);
     });
 }
 
-const handlePointerMove = (event) => {
-    const x = event.clientX / window.innerWidth - 0.5;
-    const y = event.clientY / window.innerHeight - 0.5;
+if (downloadButton) {
+    downloadButton.addEventListener("click", (event) => {
+        if (downloadButton.getAttribute("href") !== "#") {
+            return;
+        }
 
-    if (backdropHalo) {
-        backdropHalo.style.setProperty("--halo-x", `${x * 24}px`);
-        backdropHalo.style.setProperty("--halo-y", `${y * 20}px`);
-    }
-
-    backdropFogs.forEach((fog, index) => {
-        const direction = index === 0 ? 1 : -1;
-        fog.style.setProperty("--fog-x", `${x * 26 * direction}px`);
-        fog.style.setProperty("--fog-y", `${y * 18}px`);
+        event.preventDefault();
+        window.alert(translations[currentLanguage].download.alert);
     });
+}
+
+["pointerdown", "keydown", "touchstart"].forEach((eventName) => {
+    window.addEventListener(eventName, startBackgroundMusic, { once: true, passive: true });
+});
+
+const backToTopBtn = document.getElementById("backToTop");
+
+const onScrollFabs = () => {
+    backToTopBtn?.classList.toggle("is-visible", window.scrollY > 300);
 };
 
-if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+window.addEventListener("scroll", onScrollFabs, { passive: true });
+onScrollFabs();
+
+backToTopBtn?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+const createParticles = () => {
+    if (!particleHost || reduceMotion) {
+        return;
+    }
+
+    const particleCount = window.innerWidth < 768 ? 18 : 30;
+
+    for (let index = 0; index < particleCount; index += 1) {
+        const particle = document.createElement("span");
+        const size = `${(Math.random() * 5 + 2).toFixed(2)}px`;
+
+        particle.style.setProperty("--size", size);
+        particle.style.setProperty("--left", `${Math.random() * 100}%`);
+        particle.style.setProperty("--top", `${Math.random() * 100}%`);
+        particle.style.setProperty("--duration", `${12 + Math.random() * 18}s`);
+        particle.style.setProperty("--delay", `${Math.random() * -14}s`);
+
+        particleHost.appendChild(particle);
+    }
+};
+
+const updateAtmosphere = () => {
+    if (reduceMotion) {
+        return;
+    }
+
+    const scrollProgress = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1.4);
+    root.style.setProperty("--forest-shift", `${scrollProgress * 28}px`);
+    root.style.setProperty("--glow-shift", `${scrollProgress * -10}px`);
+    root.style.setProperty("--fog-y", `${scrollProgress * 18}px`);
+};
+
+const handlePointerMove = (event) => {
+    if (reduceMotion) {
+        return;
+    }
+
+    const offsetX = event.clientX / window.innerWidth - 0.5;
+    const offsetY = event.clientY / window.innerHeight - 0.5;
+
+    root.style.setProperty("--glow-shift", `${offsetX * 24}px`);
+    root.style.setProperty("--fog-x", `${offsetX * 26}px`);
+    root.style.setProperty("--fog-y", `${offsetY * 18}px`);
+};
+
+createParticles();
+updateAtmosphere();
+
+if (!reduceMotion) {
+    window.addEventListener("scroll", updateAtmosphere, { passive: true });
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
 }
