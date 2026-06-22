@@ -6,7 +6,7 @@ const admin = require("firebase-admin");
 
 const OUTPUT_PATH = path.join(__dirname, "..", "users.html");
 const COLLECTION_NAME = "users";
-const SCORE_FIELDS = ["score", "bestScore", "points"];
+const SCORE_FIELDS = ["totalScore", "score", "bestScore", "points"];
 const NAME_FIELDS = ["nickname", "displayName", "name", "username", "nickName"];
 
 function escapeHtml(value) {
@@ -495,17 +495,22 @@ function renderHtml(players, generatedAt) {
 async function fetchPlayers() {
     const snapshot = await admin.firestore().collection(COLLECTION_NAME).get();
 
-    return snapshot.docs.map((doc) => {
-        const data = doc.data() || {};
-        const playerName = getFirstString(data, NAME_FIELDS) || data.email || doc.id;
+    return Promise.all(
+        snapshot.docs.map(async (doc) => {
+            const data = doc.data() || {};
+            const playerName = getFirstString(data, NAME_FIELDS) || data.email || doc.id;
 
-        return {
-            uid: doc.id,
-            email: data.email || "",
-            playerName,
-            score: getScore(data)
-        };
-    });
+            const statsSnap = await doc.ref.collection("private").doc("stats").get();
+            const statsData = statsSnap.exists ? statsSnap.data() || {} : {};
+
+            return {
+                uid: doc.id,
+                email: data.email || "",
+                playerName,
+                score: getScore(statsData)
+            };
+        })
+    );
 }
 
 async function main() {
